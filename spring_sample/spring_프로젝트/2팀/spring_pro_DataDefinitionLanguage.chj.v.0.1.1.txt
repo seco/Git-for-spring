@@ -1,0 +1,106 @@
+CREATE TABLE `city` (
+	`no` INT(11) NOT NULL AUTO_INCREMENT,
+	`loc1` VARCHAR(50) NOT NULL,
+	`loc2` VARCHAR(50) NOT NULL,
+	PRIMARY KEY (`no`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+charset=utf8;
+
+---------------------------------------------------------------------city table---------------------------------------------------------------------
+
+CREATE TABLE `place` (
+	`no` INT(10) NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(50) NOT NULL,
+	`loc1` VARCHAR(50) NOT NULL,
+	`loc2` VARCHAR(50) NOT NULL,
+	`subject` VARCHAR(50) NOT NULL,
+	`contents` LONGTEXT NOT NULL,
+	`images` VARCHAR(50) NOT NULL,
+	`etc` VARCHAR(50) NOT NULL,
+	`DEL_CHK` VARCHAR(50) NOT NULL DEFAULT 'N',
+	PRIMARY KEY (`no`),
+	UNIQUE INDEX `name` (`name`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+charset=utf8;
+
+
+---------------------------------------------------------------------place table---------------------------------------------------------------------
+
+
+CREATE TABLE member (
+	`id` VARCHAR(20) NOT NULL,
+	`pwd` VARCHAR(15) NOT NULL,
+	`pwd_ch` VARCHAR(15) NOT NULL,
+	`birth` VARCHAR(20) NOT NULL,
+	`name` VARCHAR(15) NOT NULL,
+	`phone` VARCHAR(20)NOT NULL,
+	`address` VARCHAR(50) NOT NULL,
+	`photo` LONGBLOB NOT NULL,
+	 `gender` INT(5) NOT NULL DEFAULT '0',
+	`isAdmin` INT(5) NOT NULL DEFAULT '0',
+	PRIMARY KEY (`id`)
+) charset=utf8;
+
+
+
+Ã¢¹Î version
+
+---------------------------------------------------------------------member table---------------------------------------------------------------------
+
+
+
+
+CREATE TABLE `reply` (
+   `re_no` INT(11) NOT NULL AUTO_INCREMENT,
+   `review_id` VARCHAR(11) NOT NULL,
+   `re_contents` VARCHAR(1000) NOT NULL,
+   `re_writer` VARCHAR(50) NOT NULL,
+   `reg_date` TIMESTAMP NOT NULL,
+   PRIMARY KEY (`re_no`)
+)charset=utf8;
+
+
+
+
+---------------------------------------------------------------------reply table---------------------------------------------------------------------
+
+
+CREATE TABLE `review` (
+   `review_no` INT(11) NOT NULL auto_increment,
+   `id` varchar(11) NOT NULL,
+   `date` DATE NOT NULL,
+   `loc1` VARCHAR(50) NOT NULL,
+   `loc2` VARCHAR(50) NOT NULL,
+   `subject` VARCHAR(50) NOT NULL,
+   `contents` LONGTEXT NOT NULL,
+   `images` BLOB NOT NULL,
+   PRIMARY KEY (`review_no`)
+)
+charset=utf8;
+
+---------------------------------------------------------------------review table---------------------------------------------------------------------
+
+
+
+create table route (
+num int(11) primary key AUTO_INCREMENT, 
+id varchar(10), 
+loc varchar(100) not null, 
+r_date varchar(20), 
+trans varchar(15), 
+lat varchar(20), 
+lng varchar(20), 
+marker_num int(100)
+)charset=utf8;
+
+
+---------------------------------------------------------------------route table---------------------------------------------------------------------
+
+create table areas (name varchar(10), lat varchar(50), lng varchar(50))charset=utf8;
+
+
+---------------------------------------------------------------------area table---------------------------------------------------------------------

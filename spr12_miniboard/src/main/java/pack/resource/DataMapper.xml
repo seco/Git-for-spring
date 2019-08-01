@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev">
+      <select id="selectAll" resultType="dto">
+	select num,author,title,readcnt from board
+</select>
+
+	<update id="addCount" parameterType="string">
+		update board set readcnt=readcnt+1 where num=#{num}
+	</update>
+
+	<select id="selectDetail" parameterType="string"
+		resultType="dto">
+		select * from board where num=#{num}
+	</select>
+
+	<update id="update" parameterType="bean">
+		update board set author=#{author},title=#{title},content=#{content}
+		where num=#{num}
+	</update>
+
+	<delete id="delete" parameterType="string">
+		delete from board where num=#{num}
+	</delete>
+
+	<insert id="insert" parameterType="bean">
+		insert into board(author,title,content,bwrite,readcnt)
+		values(#{author},#{title},#{content},now(),0)
+	</insert>
+
+	<select id="search" parameterType="bean" resultType="dto">
+		select num,author,title,readcnt from board where ${searchName} like
+		concat('%', #{searchValue},'%')
+	</select>
+</mapper>

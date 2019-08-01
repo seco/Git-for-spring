@@ -1,0 +1,172 @@
+-- 상품
+CREATE TABLE product (
+	p_bun     INT(10)      NOT NULL, -- 상품번호
+	p_memid   VARCHAR(50)  NOT NULL, -- 판매자아이디
+	p_name    VARCHAR(200) NOT NULL, -- 상품명
+	p_title   VARCHAR(200) NULL,     -- 상품제목
+	p_price   INT(30)      NULL,     -- 즉시 구매가
+	p_sprice  INT(30)      NOT NULL, -- 경매 시작가
+	p_sdate   DATETIME     NOT NULL, -- 경매 시작시간
+	p_edate   DATETIME     NOT NULL, -- 경매 마감시간
+	p_photo   VARCHAR(100) NULL,     -- 사진
+	p_content TEXT         NULL,     -- 상품설명
+	p_count   INT(10)      NULL,     -- 상품조회수
+	p_like    INT(10)      NULL,      -- 상품좋아요
+	p_state INT(5)	NOT NULL,
+	p_tag	VARCHAR(100) NULL,
+	p_category VARCHAR(100) NULL,
+	p_nowprice INT(100) NULL
+) charset=utf8;
+
+-- 상품
+ALTER TABLE product
+	ADD CONSTRAINT PK_product -- 상품 기본키
+		PRIMARY KEY (
+			p_bun -- 상품번호
+		);
+
+ALTER TABLE product
+	MODIFY COLUMN p_bun INT(10) NOT NULL AUTO_INCREMENT;
+
+-- 입찰
+CREATE TABLE tender (
+	t_no    INT(10)     NOT NULL, -- 입찰코드
+	t_pbun  INT(10)     NOT NULL, -- 상품번호
+	t_memid VARCHAR(50) NOT NULL, -- 입찰자아이디
+	t_date  DATETIME    NOT NULL, -- 입찰시간
+	t_price INT(30)     NOT NULL  -- 금액
+) charset=utf8;
+
+-- 입찰
+ALTER TABLE tender
+	ADD CONSTRAINT PK_tender -- 입찰 기본키
+		PRIMARY KEY (
+			t_no -- 입찰코드
+		);
+
+ALTER TABLE tender
+	MODIFY COLUMN t_no INT(10) NOT NULL AUTO_INCREMENT;
+
+-- 회원정보
+CREATE TABLE member (
+	m_id     VARCHAR(15)  NOT NULL, -- 아이디
+	m_name   VARCHAR(50)  NULL,     -- 고객명
+	m_passwd VARCHAR(50)  NOT NULL, -- 비밀번호
+	m_phone  VARCHAR(15)  NOT NULL, -- 핸드폰번호
+	m_email  VARCHAR(50)  NULL,     -- 이메일
+	m_addr1  VARCHAR(300) NULL,     -- 주소1
+	m_addr2  VARCHAR(300) NULL,      -- 주소2
+	m_date	datetime	NULL, -- 회원가입일
+	m_like	VARCHAR(50)	NULL -- 좋아하는 번호
+) charset=utf8;
+
+-- 회원정보
+ALTER TABLE member
+	ADD CONSTRAINT PK_member -- 회원정보 기본키
+		PRIMARY KEY (
+			m_id -- 아이디
+		);
+
+-- 댓글게시판
+CREATE TABLE border (
+	b_no      INT(10)     NOT NULL, -- 게시번호
+	b_pbun    INT(10)     NOT NULL, -- 상품번호
+	b_memid   VARCHAR(50) NOT NULL, -- 아이디
+	b_date    DATE        NULL,     -- 시간
+	b_content TEXT        NULL,     -- 작성글
+	b_gnum    INT(10)     NOT NULL, -- 댓글번호
+	b_onum    INT(10)     NOT NULL  -- 덧글번호
+)charset=utf8;
+
+-- 댓글게시판
+ALTER TABLE border
+	ADD CONSTRAINT PK_border -- 댓글게시판 기본키
+		PRIMARY KEY (
+			b_no -- 게시번호
+		);
+
+ALTER TABLE border
+	MODIFY COLUMN b_no INT(10) NOT NULL AUTO_INCREMENT;
+
+-- 주소
+CREATE TABLE address (
+	a_cggcode   VARCHAR(5)  NOT NULL, -- 시군구코드
+	a_rbun      VARCHAR(7)  NOT NULL, -- 도로명번호
+	a_rname     VARCHAR(80) NULL,     -- 도로명
+	a_rroma     VARCHAR(80) NULL,     -- 도로명로마자
+	a_emdbun    VARCHAR(2)  NOT NULL, -- 읍면동일련번호
+	a_cdname    VARCHAR(40) NULL,     -- 시도명
+	a_cggname   VARCHAR(40) NULL,     -- 시군구명
+	a_emdgubun  VARCHAR(1)  NULL,     -- 읍명동구분
+	a_emdcode   VARCHAR(3)  NULL,     -- 읍면동코드
+	a_emdname   VARCHAR(40) NULL,     -- 읍면동명
+	a_rsangbun  VARCHAR(7)  NULL,     -- 상위도로명번호
+	a_rsangname VARCHAR(80) NULL,     -- 상위도로명
+	a_use       VARCHAR(1)  NULL,     -- 사용여부
+	a_change    VARCHAR(1)  NULL,     -- 변경사유
+	a_ichange   VARCHAR(14) NULL,     -- 변경이력정보
+	a_cdroma    VARCHAR(40) NULL,     -- 시도명로마자
+	a_cggroma   VARCHAR(40) NULL,     -- 시군구명로마자
+	a_emdroma   VARCHAR(40) NULL,     -- 읍면동명로마자
+	a_gosi      VARCHAR(8)  NULL,     -- 고시일자
+	a_malso     VARCHAR(8)  NULL      -- 말소일자
+) charset=utf8;
+
+-- 주소
+ALTER TABLE address
+	ADD CONSTRAINT PK_address -- 주소 기본키
+		PRIMARY KEY (
+			a_cggcode, -- 시군구코드
+			a_rbun,    -- 도로명번호
+			a_emdbun   -- 읍면동일련번호
+		);
+-- 주소2
+CREATE TABLE address2 (
+	a2_bjdcode       VARCHAR(10)  NULL,     -- 법정동코드
+	a2_cdname        VARCHAR(40)  NULL,     -- 시도명
+	a2_cggname       VARCHAR(40)  NULL,     -- 시군구명
+	a2_bjemdmname    VARCHAR(40)  NULL,     -- 법정읍면동명
+	a2_bjlmname      VARCHAR(40)  NULL,     -- 법정리명
+	a2_san           VARCHAR(1)   NULL,     -- 산여부
+	a2_jbbbunji      INT(4)       NULL,     -- 지번본번(번지)
+	a2_jbbbho        INT(4)       NULL,     -- 지번부번(호)
+	a2_rcode         VARCHAR(12)  NULL,     -- 도로명코드
+	a2_rname         VARCHAR(80)  NULL,     -- 도로명
+	a2_jiha          VARCHAR(1)   NULL,     -- 지하여부
+	a2_buildbun      INT(5)       NULL,     -- 건물본번
+	a2_buildbu       INT(5)       NULL,     -- 건물부번
+	a2_gbuild        VARCHAR(40)  NULL,     -- 건축물대장 건물명
+	a2_detailbuild   VARCHAR(100) NULL,     -- 상세건물명
+	a2_buildadminbun VARCHAR(25)  NOT NULL, -- 건물관리번호
+	a2_emdseriesbun  VARCHAR(2)   NULL,     -- 읍면동일련번호
+	a2_hjdcode       VARCHAR(10)  NULL,     -- 행정동코드
+	a2_hjdname       VARCHAR(20)  NULL,     -- 행정동명
+	a2_postbun       VARCHAR(5)   NULL,     -- 우편번호
+	a2_postseriesbun VARCHAR(3)   NULL,     -- 우편일련번호
+	a2_delname       VARCHAR(40)  NULL,     -- 다량배달처명
+	a2_movecode      VARCHAR(2)   NULL,     -- 이동사유코드
+	a2_gosi          VARCHAR(8)   NULL,     -- 고시일자
+	a2_befraddr      VARCHAR(25)  NULL,     -- 변경전도로명주소
+	a2_sggbuildname  VARCHAR(200) NULL,     -- 시군구용건물명
+	a2_apthouse      VARCHAR(1)   NULL,     -- 공동주택여부
+	a2_gichobun      VARCHAR(5)   NULL,     -- 기초구역번호
+	a2_detailaddrg   VARCHAR(1)   NULL,     -- 상세주소 부여여부
+	a2_remark1       VARCHAR(15)  NULL,     -- 비고1
+	a2_remark2       VARCHAR(15)  NULL      -- 비고2
+) charset=utf8;
+
+-- 주소2
+ALTER TABLE address2
+	ADD CONSTRAINT PK_address2 -- 주소2 기본키
+		PRIMARY KEY (
+			a2_buildadminbun -- 건물관리번호
+		);address2
+
+
+-- 카테고리
+CREATE TABLE member2 (
+	category_bun   INT(3)      NOT NULL, -- 카테고리 번호
+	category_name  VARCHAR(50) NULL,     -- 카테고리 종류
+	category_sub INT(10)     NULL,     -- 카테고리 서브번호
+	category_count   INT(3)      NULL,     -- 카테고리 카운트
+);

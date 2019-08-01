@@ -1,0 +1,51 @@
+create database bomair;
+
+use bomair;
+
+create table guest_R(
+g_id varchar(20) primary key,
+g_pwd varchar(20) not null,
+g_name varchar(20) not null,
+g_birth varchar(20) not null,
+g_pp varchar(20) not null,
+g_addr varchar(50) not null,
+g_tel varchar(20) not null,
+g_mail varchar(30) not null) charset=utf8;
+
+create table A_book(
+t_no varchar(30) primary key,
+g_id varchar(20) not null,
+air_name varchar(20) not null,
+b_date date) charset=utf8;
+
+create table A_line(
+air_name varchar(20) primary key,
+l_end varchar(20) not null,
+l_start varchar(20) not null) charset=utf8;
+
+create table A_info_R(
+air_name varchar(20) primary key,
+R_sdate varchar(20) not null,
+R_edate varchar(20) not null,
+R_price int(20) not null,
+R_soyo varchar(20) not null,
+R_etime varchar(20) not null,
+R_stime varchar(20) not null) charset=utf8;
+
+create table A_info_O(
+air_name varchar(20) primary key,
+O_sdate varchar(20) not null,
+O_price int(20) not null,
+O_soyo varchar(20) not null,
+O_stime varchar(20) not null) charset=utf8;
+
+create table R_Book(
+R_no varchar(20) primary key,
+g_id varchar(20),
+rb_date date) charset=utf8;
+
+create table car(r_no int(15) primary key auto_increment, c_name varchar(10) not null,
+ c_jong varchar(10) not null, c_bun varchar(10) not null, c_color varchar(10), c_price int(20) not null,
+ c_image varchar(10) not null, c_place varchar(20) not null)charset=utf8;
+
+create table car_book(r_no varchar(10), c_daeil varchar(20), c_banil varchar(20), g_id varchar(20))charset=utf8;

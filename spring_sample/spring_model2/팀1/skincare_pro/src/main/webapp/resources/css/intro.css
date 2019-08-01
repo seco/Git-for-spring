@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+*{margin:0; padding:0}
+li{list-style:none;}
+div input {
+	border: 1px double white;
+	background-color: lightgrey;
+	box-shadow: 2px 2px 2px grey;
+}
+
+.intro_staff {
+ width: 100%;
+ margin: auto;
+ text-align: center;
+}
+
+.staff_list{
+ width: 100%;
+ margin: auto;
+ text-align: center;
+}
+
+.staff_list li{
+	float: left;
+	list-style:none;
+	
+}
+/* #name_box{ */
+/* 	text-align: center; */
+/* } */
+
+/* #staff_list{ */
+/* 	text-align: center; */
+/* } */
+
+/* li { */
+/* 	list-style:none */
+/* } */

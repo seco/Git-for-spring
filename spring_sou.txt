@@ -1,0 +1,272 @@
+
+Spring  MVC로 DB 처리(미니 게시판 : MyBatis 사용) : xml 사용
+
+Board.java   
+package pack.model;
+public class Board {
+	 private int num,readcnt;
+	 private String author,title,content,bwrite;
+	 
+	getter, setter …
+}
+
+BoardBean.java 
+package pack.controller;
+public class BoardBean {
+	private int num, readcnt;
+	private String author, title, content, bwrite;
+	private String searchName, searchValue;  // 검색용
+       
+	getter, setter …
+}
+
+db.properties  : pack.resource  
+driver=org.mariadb.jdbc.Driver
+url=jdbc:mysql://localhost:3306/test
+username=root
+password=123
+
+Configuration.xml  : pack.resource
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<typeAliases>
+	<typeAlias type="pack.model.Board" alias="dto"/>
+	<typeAlias type="pack.controller.BoardBean" alias="bean"/>
+</typeAliases>
+ <mappers>
+  <mapper resource="pack/resource/DataMapper.xml" />
+ </mappers>
+</configuration>
+
+DataMapper.xml   : pack.resource 
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev">
+ <select id="selectAll" resultType="dto">
+  	select num,author,title,readcnt from springboard
+ </select>
+ 
+ <update id="addCount" parameterType="string">
+ 	update springboard set readcnt=readcnt+1 where num=#{num}
+ </update>
+ 
+ <select id="selectDetail" parameterType="string" resultType="dto">
+ 	select * from springboard where num=#{num} 
+ </select>
+ 
+ <update id="update" parameterType="bean">
+ 	update springboard set author=#{author},title=#{title},content=#{content} where num=#{num}
+ </update>
+ 
+ <delete id="delete" parameterType="string">
+ 	delete from springboard where num=#{num}
+ </delete>
+ 
+ <insert id="insert" parameterType="bean">
+ 	insert into springboard(author,title,content,bwrite,readcnt) values(#{author},#{title},#{content},now(),0)
+ </insert>
+ 
+ <select id="search" parameterType="bean" resultType="dto">
+ 	select num,author,title,readcnt from springboard where ${searchName} like concat('%', #{searchValue},'%')
+ </select>
+</mapper>
+
+web.xml    : 한글처리
+
+servlet-context.xml   
+<context:component-scan base-package="pack.controller" />
+	<context:component-scan base-package="pack.model" />
+
+root-context.xml   
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	…">
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<bean
+	class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<value>classpath:pack/resource/db.properties</value>
+		</property>
+	</bean>
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="${driver}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+	</bean>
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:pack/resource/Configuration.xml" />
+	</bean>
+</beans>
+
+
+---------------------------------------------
+index.jsp   
+<a href="list">게시판</a>      or   <a href="../list">게시판</a>
+
+
+BoardDao.java   
+package pack.model;
+import java.util.List;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import pack.controller.BoardBean;
+
+@Repository
+public class BoardDao extends SqlSessionDaoSupport {
+	@Autowired
+	void setFactory(SqlSessionFactory factory){
+		setSqlSessionFactory(factory);
+	}
+	
+	public List getList(){
+		return getSqlSession().selectList("selectAll");
+	}
+	
+	public int addCount(String num){
+		return getSqlSession().update("addCount", num);
+	}
+	
+	public Board detail(String num){
+		return getSqlSession().selectOne("selectDetail", num);
+	}
+	
+	public int update(BoardBean bean){
+		return getSqlSession().update("update", bean);
+	}
+	
+	public int delete(String num){
+		return getSqlSession().delete("delete", num);
+	}
+	
+	public int insert(BoardBean bean){
+		return getSqlSession().insert("insert", bean);
+	}
+	
+	public List search(BoardBean bean){
+		return getSqlSession().selectList("search", bean);
+	}
+}
+
+
+list.jsp     
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+** 미니 게시판 (MyBatis) **<br/>
+<a href="insert">글 쓰기</a>
+
+<table border="1">
+	<tr><th>번호</th><th>글 제목</th><th>작성자</th><th>조회수</th></tr>
+	<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	<c:forEach var="b" items="${list}">
+	<tr>
+		<td>${b.num}</td>
+		<td><a href="detail?num=${b.num}">${b.title}</a></td>
+		<td>${b.author}</td>
+		<td>${b.readcnt}</td>
+	</tr>
+	</c:forEach>
+	<!-- 검색 -->
+	<tr>
+		<td colspan="4">
+			<form action="search" method="post">
+				<select name="searchName">
+					<option value="author">작성자</option>
+					<option value="title">제목</option>
+				</select>
+				<input type="text" name="searchValue">
+				<input type="submit" value="검색">
+			</form>
+		</td>
+	</tr>
+</table>
+</body>
+</html>
+
+insform.jsp     
+<body>
+** 글 쓰기 **<br/>
+<form action="insert" method="post">
+글제목 : <input type="text" name="title"><br/>
+작성자 : <input type="text" name="author"><br/>
+글내용 : <textarea rows="5" cols="20" name="content"></textarea><br/>
+<input type="submit" value="저장">
+</form>
+</body>
+
+detail.jsp     
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+window.onload = function(){
+	document.getElementById("btnList").onclick = function(){
+		location.href="list";
+	};
+	
+	document.getElementById("btnUpdate").onclick = function(){
+		if(confirm("정말 수정할까요?")){
+			//입력자료 검사 작업 필요...
+			frm.action="update";  //post
+			frm.submit();
+		}
+	};
+	
+	document.getElementById("btnDelete").onclick = function(){
+		if(confirm("정말 삭제할까요?")){
+			//frm.method="get";
+			//frm.action="delete?num=" + frm.num.value; //get
+			frm.action="delete";  //post
+			frm.submit();
+		}
+	};
+};
+</script>
+</head>
+<body>
+** 글 상세 보기 **<br/>
+<form name="frm" method="post">
+글번호 : ${board.num}
+<br/>
+<input type="hidden" name="num" value="${board.num}">
+작성자 : <input type="text" name="author" value="${board.author}">
+<br/>
+글제목 : <input type="text" name="title" value="${board.title}">
+<br/>
+글내용 : <textarea rows="5" cols="20" name="content">${board.content}</textarea>
+<br/>
+작성일 : ${board.bwrite}<br/>
+조회수 : ${board.readcnt}<br/>
+<input type="button" value="목록" id="btnList" />
+<input type="button" value="수정" id="btnUpdate" />
+<input type="button" value="삭제" id="btnDelete" />
+</form>
+</body>
+</html>
+
+error.jsp     
+ 에러 …
+
+
+
+

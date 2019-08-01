@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<!-- 일반 객체 -->
+	<bean id= "logicImpl" class = "aop1.LogicImpl">
+		<constructor-arg>
+			<ref bean= "articleDao"/>
+		</constructor-arg>
+	</bean>
+	<bean id = "articleDao" class = "aop1.ArticleDao"></bean>
+	
+	<!-- aop -->
+	<!-- advice -->
+	<bean id = "profileAdvice" class = "aop1.ProfileAdvice"/>
+	<aop:config>
+		<aop:aspect ref="profileAdvice">
+			<aop:pointcut expression="execution(public * aop1..*(..))" id="poi"/>
+			<aop:around method="kbs" pointcut-ref="poi"/>
+		</aop:aspect>
+	</aop:config>
+</beans>

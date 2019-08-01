@@ -1,0 +1,113 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,900);
+* {
+  box-sizing: inherit;
+  transition-property: all;
+  transition-duration: .6s;
+  transition-timing-function: ease;
+}
+
+html,
+body {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+}
+
+body header {
+	margin: 50px 0 0;
+	text-align: center;
+}
+
+.ter_atten_div{
+	overflow: hidden;
+	height: 340px;
+	background-image: ;
+	background-size:100% 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+body header h1 {
+	margin: 50px 0 10px 0;
+	font-size: 65px;
+}
+
+body header a {
+	margin: 0 3em 0;
+}
+
+TD {FONT-SIZE: 13pt; COLOR: black; LINE-HEIGHT: 80%; FONT-FAMILY: 돋움 }
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+}
+
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4em;
+  text-align: center;
+}
+
+@media (min-width: 600px) {
+  .container {
+    flex-direction: row;
+    /* justify-content: space-between; */
+  }
+}
+
+h1 {
+  margin-top: 80px;
+  font-size: 35px;
+  font-weight: 900;
+}
+
+
+.btn {
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 45px;
+  margin: 0 0 2em;
+  max-width: 160px;
+  position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.btn:hover {
+  text-decoration: none;
+}
+
+.page-ctrl {
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-1 {
+  font-weight: 100;
+  color: #000;
+  margin: 25px 3em 0;
+  /* margin: 80px 3em 0; */
+
+}
+
+.btn-1:hover {
+  font-weight: 900;
+}
+
+}

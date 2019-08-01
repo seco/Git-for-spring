@@ -1,0 +1,196 @@
+﻿--프로그램
+
+create table program(
+pro_no int(50) NOT NULL auto_increment primary key,
+pro_name varchar(20),
+pro_price int(50) not null,
+pro_detail varchar(100),
+pro_image varchar(100),
+pro_cate varchar(100)) charset=utf8;
+
+insert into program (pro_name,pro_price,pro_detail,pro_image,pro_cate) values('균형 얼굴 관리',130000,'골기테라피로 균형을 맞추어 아름다운 체형과 얼굴을 잡아주는 프로그램', 'image_01.jpg', '1');
+insert into program (pro_name,pro_price,pro_detail,pro_image,pro_cate) values('동안 얼굴 관리',100000,'근육의 탄력을 개선시켜 얼굴형 축소와 계란형 얼굴을 만들어 주는 프로그램', 'image_02.jpg', '1');
+insert into program (pro_name,pro_price,pro_detail,pro_image,pro_cate) values('조각 얼굴 관리',130000,'얼굴형과 조화를 이루면서 또렷한 이목구비로 입체감을 주는 프로그램', 'image_03.jpg', '1');
+insert into program (pro_name,pro_price,pro_detail,pro_image,pro_cate) values('작은 얼굴 관리',80000,'작은 얼굴과 V라인 턱선으로 가꾸어 주어 몸의 프로포션을 잡아주는 프로그램', 'image_04.jpg', '1');
+
+insert into program (pro_name,pro_price,pro_detail,pro_image,pro_cate) values('슬림 바디 관리',100000,'원인을 파악하며 미용 골기테라피를 기본으로 슬림하게 관리해 주는 프로그램', 'image_05.jpg', '2');
+insert into program (pro_name,pro_price,pro_detail,pro_image,pro_cate) values('슬림 상체 관리',70000,'불규칙한 식생활과 운동 부족 등으로 흐트러진 상체 라인을 되찾아 주는 프로그램', 'image_06.jpg', '2');
+insert into program (pro_name,pro_price,pro_detail,pro_image,pro_cate) values('슬림 하체 관리',70000,'골격과 관절을 자극하는 하체 비만을 개선하고 신체를 바로 잡아주는  프로그램', 'image_07.jpg', '2');
+insert into program (pro_name,pro_price,pro_detail,pro_image,pro_cate) values('스페셜 하체 관리',130000,'골반을 반듯하게 만들어 슬림하고 탄력있는 하체로 만들어 가는 프로그램', 'image_08.jpg', '2');
+
+insert into program (pro_name,pro_price,pro_detail,pro_image,pro_cate) values('스트레스 관리',40000,'경직된 어깨와 목을 풀어주어 머리 속부터 상쾌하게 만들어 주는 프로그램', 'image_09.jpg', '3');
+insert into program (pro_name,pro_price,pro_detail,pro_image,pro_cate) values('균형 힙 관리',65000,'틀어진 힙 라인을 바르게 하여 탄력있고 균형 잡힌 힙으로 관리해 주는 프로그램', 'image_10.jpg', '3');
+insert into program (pro_name,pro_price,pro_detail,pro_image,pro_cate) values('일자 다리 관리',90000,'틀어진 생활습관을 바로 잡아 곧게 쭉 뻗은 일자 다리로 관리해주는 프로그램', 'image_11.jpg', '3');
+insert into program (pro_name,pro_price,pro_detail,pro_image,pro_cate) values('스페셜 균형 관리',90000,'몸의 균형을 집중 케어하여 균형 잡힌 바디라인으로 만들어 주는 프로그램', 'image_12.jpg', '3');
+
+
+create table program_cate(
+cate_no int(50) NOT NULL auto_increment primary key,
+cate_name varchar(20)) charset=utf8;
+
+insert into program_cate values(1, '얼굴 관리');
+insert into program_cate values(2, '바디 관리');
+insert into program_cate values(3, '집중 관리');
+
+
+
+
+-- 고객프로그램(client_program)------------------------------------------------------------------------------------------------------------------: 고객이 --어떤 프로그램을 몇회 신청했는지 -> 고객의 프로그램 신청 정보
+
+create table prog_order(
+   prog_order_no int auto_increment  primary key,
+   gogek_id varchar(20),
+   pro_no int,
+   pro_order_cnt varchar(10),
+   pro_order_reserve_cnt varchar(10), -- 예약 횟수 -- prog_order_reserve_cnt 가 pro_order_cnt보다 작을 경우에만 예약화면에 나타남
+   register_date date,
+   state varchar(10) )charset=utf8;
+
+insert into prog_order(gogek_id, pro_no, pro_order_cnt, pro_order_reserve_cnt, state, register_date) values('mky0726',1,10,0,'승인', now());
+insert into prog_order(gogek_id, pro_no, pro_order_cnt, pro_order_reserve_cnt, state, register_date) values('abc',2,10,0,'비승인',now());
+insert into prog_order(gogek_id, pro_no, pro_order_cnt, pro_order_reserve_cnt, state, register_date) values('def',3,10,0,'승인', now());
+insert into prog_order(gogek_id, pro_no, pro_order_cnt, pro_order_reserve_cnt, state, register_date) values('bbb',4,10,0,'승인', now());
+
+-- 프로그램예약(program_reserve) : --그 회차를 언제 했는지 -----------------------------------------------------------------------------
+
+
+-- 스킨상품 --------------------------------------------------------------------------------------------------------------------------------------------
+
+create table skinsang(
+	sang_no int primary key auto_increment,
+	sang_Bname varchar(50),
+	sang_Pname varchar(50),
+	sang_price int,
+	sang_su int,
+	sang_image varchar(100),
+	sang_detail varchar(100)
+)charset=utf8;
+
+insert into skinsang values(1,'브랜드','시카오플라스트 밤',39800,100,'시카플라스트 밤B5.jpg','피부에 매우 좋음');
+insert into skinsang values(2,'브랜드','피지오겔',39800,100,'피지오겔.jpg','피부에 매우 좋음');
+
+ --관리자 로그인 
+
+create table jikwonInfo(
+	jikwon_no int primary key auto_increment,
+	jikwon_id varchar(20),
+	jikwon_name varchar(20),
+	jikwon_password varchar(20)
+)charset=utf8;
+
+insert into jikwoninfo values(1,'mky0726','문경영','123');
+
+ --고객 로그인 —————————
+
+create table gogekInfo(
+	gogek_id varchar(20) primary key,
+	gogek_name varchar(20),
+	gogek_password varchar(20),
+	gogek_phone varchar(30)
+)charset=utf8;
+
+insert into gogekinfo values('mky726','문경영','123', '010-2832-3232');
+insert into gogekinfo values('abc','루루루','123', '010-5555-5253');
+insert into gogekinfo values('def','라라라','123', '010-2832-3122');
+insert into gogekinfo values('bbb','아아아','123', '010-2832-3122');
+
+ -- 나의 상품 
+
+create table mysang(
+	gogek_id varchar(20) primary key,
+	sang_no int,
+	sang_su int,
+	sang_Pname varchar(50)
+)charset=utf8;
+
+
+
+
+ -- 직원정보
+
+create table emp
+(
+    emp_no int primary key auto_increment,
+    emp_name varchar(20),
+    emp_job varchar(20),
+    emp_img varchar(20))charset=utf8;
+
+
+
+ --고객의 시술 예약 ( 쿠폰 도장 각각에 대한 예약 날짜 + 시간 )
+
+
+create table time_reserve(
+  time_reserve_no int auto_increment primary key,
+	prog_order_no varchar(10),
+	reserve_date varchar(30) not null,
+	time_unit varchar(10),
+  careManager_no varchar(10))charset=utf8; --시술담당자
+
+insert into time_reserve value(1, 1, '2018-11-15', 5, 1);
+insert into time_reserve value(2, 2, '2018-11-17', 13, 1);
+insert into time_reserve value(3, 1, '2018-11-19', 3, 2);
+insert into time_reserve value(4, 2, '2018-11-20', 7, 2);
+insert into time_reserve value(5, 1, '2018-11-21', 9, 1);
+insert into time_reserve value(6, 2, '2018-11-23', 19, 2);
+
+
+ --time table 예약 가능한 모든 시간 저장
+create table time(
+	time_no int primary key auto_increment,
+	time_avail varchar(30) not null
+	) charset=utf8;
+
+
+insert into time value(1, '11:00');
+insert into time value(2, '11:30');
+insert into time value(3, '12:00');
+insert into time value(4, '12:30');
+insert into time value(5, '13:00');
+insert into time value(6, '13:30');
+insert into time value(7, '14:00');
+insert into time value(8, '14:30');
+insert into time value(9, '15:00');
+insert into time value(10, '15:30');
+insert into time value(11, '16:00');
+insert into time value(12, '16:30');
+insert into time value(13, '17:00');
+insert into time value(14, '17:30');
+insert into time value(15, '18:00');
+insert into time value(16, '18:30');
+insert into time value(17, '19:00');
+insert into time value(18, '19:30');
+insert into time value(19, '20:00');
+
+
+
+
+
+
+
+
+create table sang_order( -- 상품 주문
+   sang_order_no int auto_increment  primary key,
+   gogek_id varchar(20), -- 고객의 주문
+   register_date date,  -- 주문 날짜
+   state varchar(10)  -- 주문 상태
+   )charset=utf8;
+
+--상품주문정보
+create table sang_order_detail(	
+  sang_order_no int,
+  sang_no int, 
+  sang_order_cnt varchar(10))charset=utf8;
+
+
+
+
+--칭찬 불만
+create table survey(
+	survey_no int auto_increment  primary key,
+	comment varchar(10), 
+	gogek_id varchar(20),
+	name varchar(20), 
+	phone varchar(20), 
+	text varchar(100))charset=utf8;
+
